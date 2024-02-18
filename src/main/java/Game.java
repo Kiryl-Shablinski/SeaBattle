@@ -13,7 +13,6 @@ public class Game {
 
     private final Player player1;
     private final Player player2;
-    private  static List<Ship> ships = new ArrayList<>();
 
     @Autowired
     public Game(Player player1, Player player2) {
@@ -63,11 +62,11 @@ public class Game {
     public  void placeShips(char[][] board, Player player) {
         System.out.printf("Ход %s игрока: разместите свои корабли.", player.getName());
         int[] ships = player.getShip().getShips();
-        for (int i = 1; i < ships.length; i++) {
-            System.out.println("Разместите корабль " + i  + " размером " + (ships.length + 1 - i) + ".");
+        for (int i = 0; i < ships.length; i++) {
+            System.out.println("Разместите " + (i + 1)  + " корабль(ля) размером " + (ships.length  - i) + " палуб.");
             int shipSize = ships[i];
 
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j <= i; j++) {
                 boolean isValidPlacement = false;
                 int x = 0, y = 0;
 
@@ -101,7 +100,7 @@ public class Game {
                             isValidPlacement = false;
                             System.out.println("Корабль " + i + " вне диапазона поля");
                         } else {
-                            for (int k = 0; k <= shipSize; k++) {
+                            for (int k = 0; k < shipSize; k++) {
                                 board[x][y + k] = 'S';
                             }
                            Ship ship = new Ship();
@@ -116,7 +115,7 @@ public class Game {
                             isValidPlacement = false;
                             System.out.println("Корабль " + i + " вне диапазона поля");
                         } else {
-                            for (int k = 0; k <= shipSize; k++) {
+                            for (int k = 0; k < shipSize; k++) {
                                 board[x + k][y] = 'S';
                             }
                             Ship ship = new Ship();
@@ -144,7 +143,7 @@ public class Game {
         }
 
 
-        public  boolean playTurn ( char[][] board){
+        public  boolean playTurn ( char[][] board, Player player){
         boolean isHit = false;
             while (!isHit) {
                 System.out.print("Введите координаты X и Y (Например, A 1): ");
@@ -152,11 +151,11 @@ public class Game {
                 char xChar = input.charAt(0);
                 char yChar = input.charAt(1);
 
-              int  y = Character.toUpperCase(xChar) - 'A';
+              int y = Character.toUpperCase(xChar) - 'A';
               int x = Character.getNumericValue(yChar) - 1;
 
                     if (board[x][y] == 'S') {
-                        for (Ship ship : ships) {
+                        for (Ship ship : player.getShips()) {
                             if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y)
                             System.out.println("Ранил");
                             else System.out.println("Убил");
@@ -180,6 +179,7 @@ public class Game {
            char[][] player2Board = initializeBoard(player2.getBoard().getBattleBoard());
 
             displayBoard(player1Board);
+            displayBoard(player2Board);
 
             // Расстановка кораблей для обоих игроков
             placeShips(player1Board, player1);
@@ -190,21 +190,23 @@ public class Game {
             int currentPlayer = 1;
             while (!isGameOver) {
                 System.out.println("Игра началась!");
-                System.out.println("Ход игрока " + currentPlayer);
+
 
                 // Отобразить игровое поле текущего игрока
                 if (currentPlayer == 1) {
+                    System.out.println("Ход игрока " + player1.getName());
                     displayBoard(player1Board);
+
                 } else {
                     displayBoard(player2Board);
                 }
 
                 // Попытка выстрелить
                 if (currentPlayer == 1) {
-                   isGameOver = playTurn(player2Board);
+                   isGameOver = playTurn(player2Board, player2);
                     currentPlayer = 2;
                 } else {
-                    isGameOver = playTurn(player1Board);
+                    isGameOver = playTurn(player1Board, player1);
                     currentPlayer = 1;
                 }
             }

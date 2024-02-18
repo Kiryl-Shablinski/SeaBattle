@@ -10,22 +10,32 @@ public class ConfigApp {
         return new Game(player1(), player2());
     }
     @Bean
-    public Ship ship(){
+    public Ship ship1(){
         return new Ship();
     }
     @Bean
-    public Board board(){
+    public Ship ship2(){
+        return new Ship();
+    }
+    @Bean
+    public Board board1(){
         return new Board();
     }
 
     @Bean
+    public Board board2(){
+        return new Board();
+    }
+
+
+    @Bean
     public Player player1(){
-        return new Player(board(),ship());
+        return new Player(board1(),ship1());
     }
 
     @Bean
     public Player player2(){
-        return new Player(board(),ship());
+        return new Player(board2(),ship2());
     }
 
 }
