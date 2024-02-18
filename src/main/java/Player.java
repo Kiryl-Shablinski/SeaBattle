@@ -14,7 +14,7 @@ public class Player  {
     private final  Board board;
     private final Ship ship;
 
-    private List<Ship> ships;
+    private List<Ship> ships = new ArrayList<>();
 
     @Autowired
     public Player(Board board, Ship ship) {

@@ -25,6 +25,7 @@ public class Game {
     private  void initPlayer() {
         System.out.println("Выберите режим игры: 1-одиночная, 2- с напарником");
         int modeGame = sc.nextInt();
+        sc.nextLine();
         if (modeGame == 1) {
             System.out.println("Введите имя игрока: ");
             String playerName = sc.nextLine();
@@ -36,8 +37,8 @@ public class Game {
             String playerName = sc.nextLine();
             player1.setName(playerName);
             System.out.println("Введите имя 2-го игрока: ");
-            String playerName2 = sc.nextLine();
-            player2.setName(playerName2);
+            playerName = sc.nextLine();
+            player2.setName(playerName);
         }
     }
 
@@ -62,9 +63,9 @@ public class Game {
     public  void placeShips(char[][] board, Player player) {
         System.out.printf("Ход %s игрока: разместите свои корабли.", player.getName());
         int[] ships = player.getShip().getShips();
-        for (int i = 0; i < ships.length; i++) {
-            System.out.println("Разместите корабль " + (i + 1) + " размером " + (ships.length - i) + ".");
-            int shipSize = ships[i] - 1;
+        for (int i = 1; i < ships.length; i++) {
+            System.out.println("Разместите корабль " + i  + " размером " + (ships.length + 1 - i) + ".");
+            int shipSize = ships[i];
 
             for (int j = 0; j < i; j++) {
                 boolean isValidPlacement = false;

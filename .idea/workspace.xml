@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="710ce5a2-6491-4411-921e-e0795b118290" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ConfigApp.java" afterDir="false" />
+    <list default="true" id="710ce5a2-6491-4411-921e-e0795b118290" name="Changes" comment="1.0">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BattleShips.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BattleShips.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BattleShips.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ConfigApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConfigApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ship.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +46,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
     "show.run.dashboard.notification": "false"
   }
 }]]></component>

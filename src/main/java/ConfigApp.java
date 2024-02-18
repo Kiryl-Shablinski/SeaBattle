@@ -7,7 +7,7 @@ public class ConfigApp {
 
     @Bean
     public Game game(){
-        return new Game(player(), player());
+        return new Game(player1(), player2());
     }
     @Bean
     public Ship ship(){
@@ -19,7 +19,12 @@ public class ConfigApp {
     }
 
     @Bean
-    public Player player(){
+    public Player player1(){
+        return new Player(board(),ship());
+    }
+
+    @Bean
+    public Player player2(){
         return new Player(board(),ship());
     }
 

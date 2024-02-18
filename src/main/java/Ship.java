@@ -15,8 +15,8 @@ public class Ship {
     private int direction;
 
     private static int[] initShip(){
-       int[] ships = new int[6];
-        for (int i = 0; i < 6; i++) {
+       int[] ships = new int[2];
+        for (int i = 0; i < ships.length; i++) {
             ships[i] = ships.length - i;
         }
         return ships;
