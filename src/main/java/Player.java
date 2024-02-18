@@ -1,21 +1,30 @@
-package players;
-
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+
+import java.util.List;
 
 @Data
-public class Player {
+@Component("prototype")
+public class Player  {
     private String name;
+    private final  Board board;
+    private final Ship ship;
 
-    private Board board;
+    private List<Ship> ships;
 
-    public Player(){}
-
-    public Player(String name) {
-        this.name = name;
+    @Autowired
+    public Player(Board board, Ship ship) {
+        this.board = board;
+        this.ship = ship;
     }
-
     @Override
     public String toString() {
         return  name;
     }
+
+
 }
