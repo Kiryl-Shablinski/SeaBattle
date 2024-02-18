@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="710ce5a2-6491-4411-921e-e0795b118290" name="Changes" comment="1.0">
+    <list default="true" id="710ce5a2-6491-4411-921e-e0795b118290" name="Changes" comment="1.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ConfigApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConfigApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerBot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1708279877729</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="1.1">
+      <created>1708281511045</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708281511045</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,7 +157,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.0" />
+    <MESSAGE value="1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

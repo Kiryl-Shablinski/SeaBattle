@@ -156,13 +156,19 @@ public class Game {
 
                     if (board[x][y] == 'S') {
                         for (Ship ship : player.getShips()) {
-                            if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y)
-                            System.out.println("Ранил");
-                            else System.out.println("Убил");
+                            if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y) {
+                                System.out.println("Ранил");
+                            }
+                            else {
+                                System.out.println("Убил");
+                            }
+                            break;
                         }
                         board[x][y] = 'X';
+                        displayBoard(board);
                     } else {
                         System.out.println("Мимо!");
+                        board[x][y] = '*';
                         isHit = true;
                     }
                 }
@@ -176,14 +182,18 @@ public class Game {
          initPlayer();
             // Инициализация игровых полей
            char[][] player1Board = initializeBoard(player1.getBoard().getBattleBoard());
+           char[][] player1Shorts = initializeBoard(player1.getBoardShots().getBattleBoard());
            char[][] player2Board = initializeBoard(player2.getBoard().getBattleBoard());
+            char[][] player2Shorts = initializeBoard(player2.getBoardShots().getBattleBoard());
 
-            displayBoard(player1Board);
-            displayBoard(player2Board);
+           // displayBoard(player1Board);
+           // displayBoard(player2Board);
 
             // Расстановка кораблей для обоих игроков
             placeShips(player1Board, player1);
+            System.out.print("\033[H\033[J");
             placeShips(player2Board, player2);
+            System.out.print("\033[H\033[J");
 
             // Игровой цикл
             boolean isGameOver = false;
@@ -196,9 +206,11 @@ public class Game {
                 if (currentPlayer == 1) {
                     System.out.println("Ход игрока " + player1.getName());
                     displayBoard(player1Board);
+                    displayBoard(player1Shorts);
 
                 } else {
                     displayBoard(player2Board);
+                    displayBoard(player2Shorts);
                 }
 
                 // Попытка выстрелить

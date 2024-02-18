@@ -1,4 +1,3 @@
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,12 +29,22 @@ public class ConfigApp {
 
     @Bean
     public Player player1(){
-        return new Player(board1(),ship1());
+        return new Player(board1(), boardShots1(), ship1());
+    }
+
+    @Bean
+    public Board boardShots1() {
+        return new Board();
     }
 
     @Bean
     public Player player2(){
-        return new Player(board2(),ship2());
+        return new Player(board2(), boardShots2(), ship2());
+    }
+
+    @Bean
+    public Board boardShots2() {
+        return new Board();
     }
 
 }
