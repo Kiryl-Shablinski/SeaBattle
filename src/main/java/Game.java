@@ -21,7 +21,7 @@ public class Game {
     }
 
 
-    private  void initPlayer() {
+    private void initPlayer() {
         System.out.println("Выберите режим игры: 1-одиночная, 2- с напарником");
         int modeGame = sc.nextInt();
         sc.nextLine();
@@ -59,11 +59,11 @@ public class Game {
         System.out.println();
     }
 
-    public  void placeShips(char[][] board, Player player) {
+    public void placeShips(char[][] board, Player player) {
         System.out.printf("Ход %s игрока: разместите свои корабли.", player.getName());
         int[] ships = player.getShip().getShips();
         for (int i = 0; i < ships.length; i++) {
-            System.out.println("Разместите " + (i + 1)  + " корабль(ля) размером " + (ships.length  - i) + " палуб.");
+            System.out.println("Разместите " + (i + 1) + " корабль(ля) размером " + (ships.length - i) + " палуб.");
             int shipSize = ships[i];
 
             for (int j = 0; j <= i; j++) {
@@ -103,10 +103,10 @@ public class Game {
                             for (int k = 0; k < shipSize; k++) {
                                 board[x][y + k] = 'S';
                             }
-                           Ship ship = new Ship();
+                            Ship ship = new Ship();
                             ship.setX(x);
                             ship.setY(y);
-                            ship.setSize(shipSize);
+                            ship.setSize(shipSize + 1);
                             ship.setDirection(direction);
                             player.getShips().add(ship);
                         }
@@ -133,96 +133,109 @@ public class Game {
     }
 
 
-        public  char[][] initializeBoard ( char[][] board){
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board.length; j++) {
-                    board[i][j] = '~'; // Море
-                }
+    public char[][] initializeBoard(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                board[i][j] = '~'; // Море
             }
-            return board;
         }
-
-
-        public  boolean playTurn ( char[][] board, Player player){
-        boolean isHit = false;
-            while (!isHit) {
-                System.out.print("Введите координаты X и Y (Например, A 1): ");
-                String input = sc.nextLine();
-                char xChar = input.charAt(0);
-                char yChar = input.charAt(1);
-
-              int y = Character.toUpperCase(xChar) - 'A';
-              int x = Character.getNumericValue(yChar) - 1;
-
-                    if (board[x][y] == 'S') {
-                        for (Ship ship : player.getShips()) {
-                            if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y) {
-                                System.out.println("Ранил");
-                            }
-                            else {
-                                System.out.println("Убил");
-                            }
-                            break;
-                        }
-                        board[x][y] = 'X';
-                        displayBoard(board);
-                    } else {
-                        System.out.println("Мимо!");
-                        board[x][y] = '*';
-                        isHit = true;
-                    }
-                }
-
-            return true;
-        }
-
-        public  void start (){
-            System.out.println("Добро пожаловать в игру морской бой.");
-            //инициализация игроков
-         initPlayer();
-            // Инициализация игровых полей
-           char[][] player1Board = initializeBoard(player1.getBoard().getBattleBoard());
-           char[][] player1Shorts = initializeBoard(player1.getBoardShots().getBattleBoard());
-           char[][] player2Board = initializeBoard(player2.getBoard().getBattleBoard());
-            char[][] player2Shorts = initializeBoard(player2.getBoardShots().getBattleBoard());
-
-           // displayBoard(player1Board);
-           // displayBoard(player2Board);
-
-            // Расстановка кораблей для обоих игроков
-            placeShips(player1Board, player1);
-            System.out.print("\033[H\033[J");
-            placeShips(player2Board, player2);
-            System.out.print("\033[H\033[J");
-
-            // Игровой цикл
-            boolean isGameOver = false;
-            int currentPlayer = 1;
-            while (!isGameOver) {
-                System.out.println("Игра началась!");
-
-
-                // Отобразить игровое поле текущего игрока
-                if (currentPlayer == 1) {
-                    System.out.println("Ход игрока " + player1.getName());
-                    displayBoard(player1Board);
-                    displayBoard(player1Shorts);
-
-                } else {
-                    displayBoard(player2Board);
-                    displayBoard(player2Shorts);
-                }
-
-                // Попытка выстрелить
-                if (currentPlayer == 1) {
-                   isGameOver = playTurn(player2Board, player2);
-                    currentPlayer = 2;
-                } else {
-                    isGameOver = playTurn(player1Board, player1);
-                    currentPlayer = 1;
-                }
-            }
-
-            System.out.println("Игра окончена. Победил игрок " + currentPlayer);
-        }
+        return board;
     }
+
+
+    public boolean playTurn(char[][] board, Player playerAttack, Player playerDefeat) {
+
+        System.out.print("Введите координаты X и Y (Например, A 1): ");
+        String input = sc.nextLine();
+        char xChar = input.charAt(0);
+        char yChar = input.charAt(1);
+
+        int y = Character.toUpperCase(xChar) - 'A';
+        int x = Character.getNumericValue(yChar) - 1;
+
+        if (board[x][y] == 'S') {
+            for (Ship ship : playerDefeat.getShips()) {
+                if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y) {
+                    System.out.println("Ранил");
+                } else {
+                    System.out.println("Убил");
+                }
+                break;
+            }
+            board[x][y] = 'X';
+            playerAttack.getBoardShots().getBattleBoard()[x][y] = 'X';
+
+        } else {
+            System.out.println("Мимо!");
+            board[x][y] = '*';
+            return false;
+
+        }
+
+
+        return true;
+    }
+
+    public boolean isGameOver(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] == 'S')
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public void start() {
+        System.out.println("Добро пожаловать в игру морской бой.");
+        //инициализация игроков
+        initPlayer();
+        // Инициализация игровых полей
+        char[][] player1Board = initializeBoard(player1.getBoard().getBattleBoard());
+        char[][] player1Shots = initializeBoard(player1.getBoardShots().getBattleBoard());
+        char[][] player2Board = initializeBoard(player2.getBoard().getBattleBoard());
+        char[][] player2Shots = initializeBoard(player2.getBoardShots().getBattleBoard());
+
+        // displayBoard(player1Board);
+        // displayBoard(player2Board);
+
+        // Расстановка кораблей для обоих игроков
+        placeShips(player1Board, player1);
+        System.out.print("\033[H\033[J");
+        placeShips(player2Board, player2);
+        System.out.print("\033[H\033[J");
+
+        // Игровой цикл
+        boolean isMiss;
+        int currentPlayer = 1;
+
+        while (!isGameOver(player1.getBoard().getBattleBoard()) || !isGameOver(player2.getBoard().getBattleBoard())) {
+            System.out.println("Игра началась!");
+
+            // Отобразить игровое поле текущего игрока
+            if (currentPlayer == 1) {
+                System.out.println("Ход игрока " + player1.getName());
+                displayBoard(player1Board);
+                displayBoard(player1Shots);
+                isMiss = playTurn(player2Board, player1, player2);
+
+                if (!isMiss) currentPlayer = 2;
+
+
+            } else {
+                System.out.println("Ход игрока " + player2.getName());
+                displayBoard(player2Board);
+                displayBoard(player2Shots);
+                isMiss = playTurn(player1Board, player2, player1);
+                if (!isMiss) currentPlayer = 1;
+            }
+        }
+        String playerWinner;
+        if(currentPlayer == 1){
+            playerWinner = player1.getName();
+        }else{
+            playerWinner = player2.getName();
+        }
+        System.out.printf("Игра окончена. Победил игрок %s", playerWinner);
+    }
+}
