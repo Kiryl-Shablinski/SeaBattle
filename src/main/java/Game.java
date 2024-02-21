@@ -143,7 +143,10 @@ public class Game {
     }
 
 
-    public boolean playTurn(char[][] board, Player playerAttack, Player playerDefeat) {
+    public boolean playTurn(Player playerAttack, Player playerDefeat) {
+
+        char[][] boardAttack = playerDefeat.getBoard().getBattleBoard();
+        char[][] boardShot = playerAttack.getBoardShots().getBattleBoard();
 
         System.out.print("Введите координаты X и Y (Например, A 1): ");
         String input = sc.nextLine();
@@ -153,7 +156,7 @@ public class Game {
         int y = Character.toUpperCase(xChar) - 'A';
         int x = Character.getNumericValue(yChar) - 1;
 
-        if (board[x][y] == 'S') {
+        if (boardAttack [x][y] == 'S') {
             for (Ship ship : playerDefeat.getShips()) {
                 if (ship.getSize() > 1 && ship.getX() == x && ship.getY() == y) {
                     System.out.println("Ранил");
@@ -162,17 +165,15 @@ public class Game {
                 }
                 break;
             }
-            board[x][y] = 'X';
-            playerAttack.getBoardShots().getBattleBoard()[x][y] = 'X';
+            boardAttack [x][y] = 'X';
+            boardShot [x][y] = 'X';
 
         } else {
             System.out.println("Мимо!");
-            board[x][y] = '*';
+            boardAttack[x][y] = '*';
+            boardShot [x][y] = '*';
             return false;
-
         }
-
-
         return true;
     }
 
@@ -191,42 +192,37 @@ public class Game {
         //инициализация игроков
         initPlayer();
         // Инициализация игровых полей
-        char[][] player1Board = initializeBoard(player1.getBoard().getBattleBoard());
-        char[][] player1Shots = initializeBoard(player1.getBoardShots().getBattleBoard());
-        char[][] player2Board = initializeBoard(player2.getBoard().getBattleBoard());
-        char[][] player2Shots = initializeBoard(player2.getBoardShots().getBattleBoard());
-
-        // displayBoard(player1Board);
-        // displayBoard(player2Board);
+       initializeBoard(player1.getBoard().getBattleBoard());
+       initializeBoard(player1.getBoardShots().getBattleBoard());
+       initializeBoard(player2.getBoard().getBattleBoard());
+       initializeBoard(player2.getBoardShots().getBattleBoard());
 
         // Расстановка кораблей для обоих игроков
-        placeShips(player1Board, player1);
-        System.out.print("\033[H\033[J");
-        placeShips(player2Board, player2);
-        System.out.print("\033[H\033[J");
+        placeShips(player1.getBoard().getBattleBoard(), player1);
+        placeShips(player2.getBoard().getBattleBoard(), player2);
 
         // Игровой цикл
         boolean isMiss;
         int currentPlayer = 1;
 
-        while (!isGameOver(player1.getBoard().getBattleBoard()) || !isGameOver(player2.getBoard().getBattleBoard())) {
+        while (!isGameOver(player1.getBoard().getBattleBoard()) && !isGameOver(player2.getBoard().getBattleBoard())) {
             System.out.println("Игра началась!");
 
             // Отобразить игровое поле текущего игрока
             if (currentPlayer == 1) {
                 System.out.println("Ход игрока " + player1.getName());
-                displayBoard(player1Board);
-                displayBoard(player1Shots);
-                isMiss = playTurn(player2Board, player1, player2);
+                displayBoard(player1.getBoard().getBattleBoard());
+                displayBoard(player1.getBoardShots().getBattleBoard());
+                isMiss = playTurn(player1, player2);
 
                 if (!isMiss) currentPlayer = 2;
 
 
             } else {
                 System.out.println("Ход игрока " + player2.getName());
-                displayBoard(player2Board);
-                displayBoard(player2Shots);
-                isMiss = playTurn(player1Board, player2, player1);
+                displayBoard(player2.getBoard().getBattleBoard());
+                displayBoard(player2.getBoardShots().getBattleBoard());
+                isMiss = playTurn(player2, player1);
                 if (!isMiss) currentPlayer = 1;
             }
         }
