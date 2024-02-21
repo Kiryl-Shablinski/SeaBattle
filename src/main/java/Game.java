@@ -60,8 +60,11 @@ public class Game {
     }
 
     public void placeShips(char[][] board, Player player) {
-        System.out.printf("Ход %s игрока: разместите свои корабли.", player.getName());
+        System.out.printf("Ход %s игрока: разместите свои корабли.\n", player.getName());
+        displayBoard(board);
         int[] ships = player.getShip().getShips();
+        Ship ship = new Ship();
+        int direction = 0;
         for (int i = 0; i < ships.length; i++) {
             System.out.println("Разместите " + (i + 1) + " корабль(ля) размером " + (ships.length - i) + " палуб.");
             int shipSize = ships[i];
@@ -75,63 +78,55 @@ public class Game {
                     System.out.print("Введите координаты X и Y (Например, A 1): ");
                     String input = sc.nextLine();
 
-                    System.out.print("Укажите направление корабля (1 - горизонтальное, 2 - вертикальное): ");
-                    int direction = sc.nextInt();
-                    sc.nextLine();
+                    if (shipSize > 1) {
+                        System.out.print("Укажите направление корабля (1 - горизонтальное, 2 - вертикальное): ");
+                        direction = sc.nextInt();
+                        sc.nextLine();
+                    }
 
                     char xChar = input.charAt(0);
                     char yChar = input.charAt(1);
 
                     y = Character.toUpperCase(xChar) - 'A';
                     x = Character.getNumericValue(yChar) - 1;
+                    isValidPlacement = Validator.inRange(board, x, y, direction, shipSize);
 
-                    if (x >= 0 && x < board.length && y >= 0 && y < board.length) {
-                        if (board[x][y] == '~') { // Можно разместить корабль
-                            isValidPlacement = true;
-                        } else {
-                            System.out.println("Координаты " + input + " уже заняты.");
-                        }
-                    } else {
-                        System.out.println("Координаты " + input + " вне диапазона.");
+                    if (x >= 0 && x < board.length && y >= 0 && y < board.length
+                            && isValidPlacement && board[x][y] == '~') {
+                        System.out.println("Можно разместить корабль");
+                    }else{
+                        System.out.println("Координаты " + input + " уже заняты, или корабль " + i +" вне диапазона поля");
+                        isValidPlacement = false;
                     }
-
-                    if (direction == 1) {
-                        if ((y + shipSize) > board.length) {
-                            isValidPlacement = false;
-                            System.out.println("Корабль " + i + " вне диапазона поля");
-                        } else {
+                }
+                if (direction == 1) {
                             for (int k = 0; k < shipSize; k++) {
                                 board[x][y + k] = 'S';
                             }
-                            Ship ship = new Ship();
-                            ship.setX(x);
-                            ship.setY(y);
-                            ship.setSize(shipSize + 1);
-                            ship.setDirection(direction);
-                            player.getShips().add(ship);
-                        }
-                    } else if (direction == 2) {
-                        if ((x + shipSize) > board.length) {
-                            isValidPlacement = false;
-                            System.out.println("Корабль " + i + " вне диапазона поля");
-                        } else {
-                            for (int k = 0; k < shipSize; k++) {
-                                board[x + k][y] = 'S';
-                            }
-                            Ship ship = new Ship();
                             ship.setX(x);
                             ship.setY(y);
                             ship.setSize(shipSize);
                             ship.setDirection(direction);
                             player.getShips().add(ship);
+                            ship.borderShip(board);
+                            ship.borderShip(board);
                         }
-                    }
-                }
+                     else if (direction == 2) {
+                            for (int k = 0; k < shipSize; k++) {
+                                board[x + k][y] = 'S';
+                            }
+                            ship.setX(x);
+                            ship.setY(y);
+                            ship.setSize(shipSize);
+                            ship.setDirection(direction);
+                            player.getShips().add(ship);
+                            ship.borderShip(board);
+                        }
+
                 displayBoard(board);
             }
         }
     }
-
 
     public char[][] initializeBoard(char[][] board) {
         for (int i = 0; i < board.length; i++) {
@@ -205,9 +200,9 @@ public class Game {
         boolean isMiss;
         int currentPlayer = 1;
 
-        while (!isGameOver(player1.getBoard().getBattleBoard()) && !isGameOver(player2.getBoard().getBattleBoard())) {
-            System.out.println("Игра началась!");
+        System.out.println("Игра началась!");
 
+        while (!isGameOver(player1.getBoard().getBattleBoard()) && !isGameOver(player2.getBoard().getBattleBoard())) {
             // Отобразить игровое поле текущего игрока
             if (currentPlayer == 1) {
                 System.out.println("Ход игрока " + player1.getName());
@@ -216,8 +211,6 @@ public class Game {
                 isMiss = playTurn(player1, player2);
 
                 if (!isMiss) currentPlayer = 2;
-
-
             } else {
                 System.out.println("Ход игрока " + player2.getName());
                 displayBoard(player2.getBoard().getBattleBoard());
